@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivity";
     UUID BT_MODULE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
 
-    EditText send_editText, mInputEditText; //mInputEditText 추가
+    EditText send_editText, input, mInputEditText; //mInputEditText 추가
     TextView textStatus, send_textView, read_textView;
     Button btnParied, btnSearch, btnSend, send_button;
     ListView listView;
@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     private static String SERVER_IP = "3.37.62.251";
     private static String CONNECT_MSG = "connect";
     private static String STOP_MSG = "stop";
+
+    public String OTP;
 
     private static int BUF_SIZE = 100;
 
@@ -164,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
             send_textView.append("보낸 메세지: " + output_message );
             read_textView.setText(""); // Clear the chat box
             read_textView.append("받은 메세지: " + params[0]);
+            OTP = params[0];
         }
     }
 
@@ -214,13 +217,15 @@ public class MainActivity extends AppCompatActivity {
         alert.setMessage("PIN CODE");
 
         //Set an EditText view to get user input
-        final EditText input = new EditText(this);
-        alert.setView(input);
+       // final EditText input = new EditText(this);
+        //alert.setView(input);
+        //OTP = input.getText().toString();
+        
 
         alert.setPositiveButton("전송", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(connectedThread!=null){ connectedThread.write("%s", input); }
+                if(connectedThread!=null){ connectedThread.write(OTP); }
                 Toast.makeText(getApplicationContext(), "전송 완료", Toast.LENGTH_SHORT).show();
             }
 
