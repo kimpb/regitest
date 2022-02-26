@@ -1,9 +1,5 @@
 package com.example.ayu.regitest;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
@@ -16,8 +12,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +22,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -37,7 +35,13 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
-import java.util.regex.Pattern;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> btArrayAdapter;
     ArrayList<String> deviceAddressArray;
 
+
     private final static int REQUEST_ENABLE_BT = 1;
     private Socket client;
     private DataOutputStream dataOutput;
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public String CONNECT_MSG;
     private static String STOP_MSG = "stop";
 
+
     public String UserEmail;
     public String OTP;
 
@@ -69,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     BluetoothSocket btSocket = null;
     ConnectedThread connectedThread;
+    TcpClient mClient;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -118,17 +125,20 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(btArrayAdapter);
 
         listView.setOnItemClickListener(new myOnItemClickListener());
+
+
         send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Connect connect = new Connect();
                 CONNECT_MSG = UserEmail;
-                connect.execute(CONNECT_MSG);
+                connect.execute(UserEmail);
             }
         });
 
 
     }
+
     private class Connect extends AsyncTask< String , String,Void > {
         private String output_message;
         private String input_message;
