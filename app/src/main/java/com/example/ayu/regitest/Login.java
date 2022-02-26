@@ -66,9 +66,9 @@ public class Login extends AppCompatActivity {
                                 Toast.makeText( getApplicationContext(), String.format("%s님 환영합니다.", UserName), Toast.LENGTH_SHORT ).show();
                                 Intent intent = new Intent( Login.this, MainActivity.class );
 
-                                //intent.putExtra( "UserEmail", textID );
-                                //intent.putExtra( "UserPwd", textPW );
-                                //intent.putExtra( "UserName", UserName );
+                                intent.putExtra( "UserEmail", textID );
+                                intent.putExtra( "UserPwd", textPW );
+                                intent.putExtra( "UserName", UserName );
 
                                 startActivity( intent );
                             } else {//실패시

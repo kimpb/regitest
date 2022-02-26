@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     UUID BT_MODULE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
 
     EditText send_editText, input, mInputEditText; //mInputEditText 추가
-    TextView textStatus, send_textView, read_textView;
+    TextView textStatus, send_textView, read_textView, welcome;
     Button btnParied, btnSearch, btnSend, send_button;
     ListView listView;
 
@@ -59,9 +59,10 @@ public class MainActivity extends AppCompatActivity {
     private DataOutputStream dataOutput;
     private DataInputStream dataInput;
     private static String SERVER_IP = "3.37.62.251";
-    private static String CONNECT_MSG = "connect";
+    public String CONNECT_MSG;
     private static String STOP_MSG = "stop";
 
+    public String UserEmail;
     public String OTP;
 
     private static int BUF_SIZE = 100;
@@ -75,10 +76,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         send_button = findViewById(R.id.send_button);
         send_editText = findViewById(R.id.send_editText);
         send_textView = findViewById(R.id.send_textView);
         read_textView = findViewById(R.id.read_textView);
+        welcome = findViewById(R.id.welcome);
+
+        UserEmail = getIntent().getStringExtra("UserEmail");
+
+        welcome.setText(UserEmail + " 님 환영합니다."); // Clear the chat box
+        //welcome.append(UserEmail + " 님 환영합니다.");
 
 
 
@@ -114,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Connect connect = new Connect();
+                CONNECT_MSG = UserEmail;
                 connect.execute(CONNECT_MSG);
             }
         });
@@ -214,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle("OTP 코드 전송");
-        alert.setMessage("PIN CODE");
+        alert.setMessage(OTP + " 전송");
 
         //Set an EditText view to get user input
        // final EditText input = new EditText(this);
