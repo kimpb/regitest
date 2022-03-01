@@ -12,7 +12,7 @@
     </style>
 
     <style name="defaultButton" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="urgentButton" parent="Widget.AppCompat.Button.Colored">

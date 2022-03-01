@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -85,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         send_button = findViewById(R.id.send_button);
-        send_editText = findViewById(R.id.send_editText);
-        send_textView = findViewById(R.id.send_textView);
+//        send_editText = findViewById(R.id.send_editText);
+//        send_textView = findViewById(R.id.send_textView);
         read_textView = findViewById(R.id.read_textView);
         welcome = findViewById(R.id.welcome);
 
@@ -181,10 +180,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(String... params){
-            send_textView.setText(""); // Clear the chat box
-            send_textView.append("보낸 메세지: " + output_message );
+//            send_textView.setText(""); // Clear the chat box
+//            send_textView.append("보낸 메세지: " + output_message );
             read_textView.setText(""); // Clear the chat box
-            read_textView.append("받은 메세지: " + params[0]);
+            read_textView.append("OTP : " + params[0]);
             OTP = params[0];
         }
     }
@@ -236,10 +235,10 @@ public class MainActivity extends AppCompatActivity {
         alert.setMessage(OTP + " 전송");
 
         //Set an EditText view to get user input
-       // final EditText input = new EditText(this);
+        // final EditText input = new EditText(this);
         //alert.setView(input);
         //OTP = input.getText().toString();
-        
+
 
         alert.setPositiveButton("전송", new DialogInterface.OnClickListener() {
             @Override
