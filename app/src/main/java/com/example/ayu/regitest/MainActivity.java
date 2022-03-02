@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 CONNECT_MSG = UserEmail;
                 connect.execute(UserEmail);
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -306,11 +306,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Don't forget to unregister the ACTION_FOUND receiver.
         //unregisterReceiver(receiver);
-        try {
-            client.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            client.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public class myOnItemClickListener implements AdapterView.OnItemClickListener {
