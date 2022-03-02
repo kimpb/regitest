@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
     BluetoothSocket btSocket = null;
     ConnectedThread connectedThread;
-    TcpClient mClient;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -132,6 +131,17 @@ public class MainActivity extends AppCompatActivity {
                 Connect connect = new Connect();
                 CONNECT_MSG = UserEmail;
                 connect.execute(UserEmail);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
@@ -154,9 +164,12 @@ public class MainActivity extends AppCompatActivity {
             } catch (UnknownHostException e) {
                 String str = e.getMessage().toString();
                 Log.w("discnt", str + " 1");
+                return null;
+
             } catch (IOException e) {
                 String str = e.getMessage().toString();
                 Log.w("discnt", str + " 2");
+                return null;
             }
 
             while (true){
@@ -173,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     Thread.sleep(2);
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
+                    return null;
                 }
             }
             return null;
@@ -283,7 +297,12 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
 
         // Don't forget to unregister the ACTION_FOUND receiver.
-        unregisterReceiver(receiver);
+        //unregisterReceiver(receiver);
+        try {
+            client.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public class myOnItemClickListener implements AdapterView.OnItemClickListener {
