@@ -257,8 +257,16 @@ public class MainActivity extends AppCompatActivity {
         alert.setPositiveButton("전송", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(connectedThread!=null){ connectedThread.write(OTP); }
-                Toast.makeText(getApplicationContext(), "전송 완료", Toast.LENGTH_SHORT).show();
+                if(connectedThread!=null){ 
+                    connectedThread.write(OTP);
+                    Toast.makeText(getApplicationContext(), "전송 완료", Toast.LENGTH_SHORT).show();
+
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "전송 실패", Toast.LENGTH_SHORT).show();
+
+                }
+
             }
 
         });
