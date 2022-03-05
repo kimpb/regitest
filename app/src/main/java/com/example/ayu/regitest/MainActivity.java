@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private static String STOP_MSG = "stop";
 
 
-    public String UserEmail;
+    public String UserName, UserEmail;
     public String OTP;
 
     private static int BUF_SIZE = 100;
@@ -88,9 +88,10 @@ public class MainActivity extends AppCompatActivity {
         read_textView = findViewById(R.id.read_textView);
         welcome = findViewById(R.id.welcome);
 
+        UserName = getIntent().getStringExtra("UserName");
         UserEmail = getIntent().getStringExtra("UserEmail");
 
-        welcome.setText(UserEmail + " 님 환영합니다."); // Clear the chat box
+        welcome.setText(UserName + " 님 환영합니다."); // Clear the chat box
         //welcome.append(UserEmail + " 님 환영합니다.");
 
 
