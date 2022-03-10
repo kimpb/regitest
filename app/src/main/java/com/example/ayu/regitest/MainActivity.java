@@ -35,11 +35,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -47,8 +42,7 @@ public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivity";
     UUID BT_MODULE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
 
-    EditText send_editText, input, mInputEditText; //mInputEditText 추가
-    TextView textStatus, send_textView, read_textView, welcome;
+    TextView textStatus, read_textView, welcome;
     Button btnParied, btnSearch, btnSend, send_button;
     ListView listView;
 
@@ -60,22 +54,20 @@ public class MainActivity extends AppCompatActivity {
 
     private final static int REQUEST_ENABLE_BT = 1;
     private Socket client;
-    private DataOutputStream dataOutput;
-    private DataInputStream dataInput;
-    private static String SERVER_IP = "3.37.62.251";
+    private static final String SERVER_IP = "13.209.98.41";
     public String CONNECT_MSG;
-    private static String STOP_MSG = "stop";
+    private static final String STOP_MSG = "stop";
 
 
     public String UserName, UserEmail;
     public String OTP;
 
-    private static int BUF_SIZE = 100;
+    private static final int BUF_SIZE = 100;
 
     BluetoothSocket btSocket = null;
     ConnectedThread connectedThread;
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint({"MissingPermission", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,16 +75,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         send_button = findViewById(R.id.send_button);
-//        send_editText = findViewById(R.id.send_editText);
-//        send_textView = findViewById(R.id.send_textView);
         read_textView = findViewById(R.id.read_textView);
         welcome = findViewById(R.id.welcome);
 
         UserName = getIntent().getStringExtra("UserName");
         UserEmail = getIntent().getStringExtra("UserEmail");
 
-        welcome.setText(UserName + " 님 환영합니다."); // Clear the chat box
-        //welcome.append(UserEmail + " 님 환영합니다.");
+        welcome.setText(UserName + " 님 환영합니다.");
 
 
 
@@ -112,12 +101,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // variables
-        textStatus = (TextView) findViewById(R.id.text_status);
-        btnParied = (Button) findViewById(R.id.btn_paired);
-        btnSearch = (Button) findViewById(R.id.btn_search);
-        btnSend = (Button) findViewById(R.id.btn_send);
-        listView = (ListView) findViewById(R.id.listview);
-        //mInputEditText = (EditText)findViewById(R.id.input_string_edittext); // otp 전송 변수
+        textStatus = findViewById(R.id.text_status);
+        btnParied = findViewById(R.id.btn_paired);
+        btnSearch = findViewById(R.id.btn_search);
+        btnSend = findViewById(R.id.btn_send);
+        listView = findViewById(R.id.listview);
         // Show paired devices
         btArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         deviceAddressArray = new ArrayList<>();
@@ -126,49 +114,46 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new myOnItemClickListener());
 
 
-        send_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Connect connect = new Connect();
-                CONNECT_MSG = UserEmail;
-                connect.execute(UserEmail);
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    client.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+        send_button.setOnClickListener(view -> {
+            Connect connect = new Connect();
+            CONNECT_MSG = UserEmail;
+            connect.execute(UserEmail);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            try {
+                client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         });
 
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class Connect extends AsyncTask< String , String,Void > {
-        private String output_message;
-        private String input_message;
 
         @Override
         protected Void doInBackground(String... strings) {
+            DataInputStream dataInput;
             try {
                 client = new Socket(SERVER_IP, 4000);
-                dataOutput = new DataOutputStream(client.getOutputStream());
+                DataOutputStream dataOutput = new DataOutputStream(client.getOutputStream());
                 dataInput = new DataInputStream(client.getInputStream());
-                output_message = strings[0];
+                String output_message = strings[0];
                 dataOutput.writeUTF(output_message);
 
             } catch (UnknownHostException e) {
-                String str = e.getMessage().toString();
+                String str = e.getMessage();
                 Log.w("discnt", str + " 1");
                 return null;
 
             } catch (IOException e) {
-                String str = e.getMessage().toString();
+                String str = e.getMessage();
                 Log.w("discnt", str + " 2");
                 return null;
             }
@@ -177,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     byte[] buf = new byte[BUF_SIZE];
                     int read_Byte  = dataInput.read(buf);
-                    input_message = new String(buf, 0, read_Byte);
+                    String input_message = new String(buf, 0, read_Byte);
                     if (!input_message.equals(STOP_MSG)){
                         publishProgress(input_message);
                     }
@@ -195,8 +180,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(String... params){
-//            send_textView.setText(""); // Clear the chat box
-//            send_textView.append("보낸 메세지: " + output_message );
             read_textView.setText(""); // Clear the chat box
             read_textView.append("OTP : " + params[0]);
             OTP = params[0];
@@ -249,33 +232,20 @@ public class MainActivity extends AppCompatActivity {
         alert.setTitle("OTP 코드 전송");
         alert.setMessage(OTP + " 전송");
 
-        //Set an EditText view to get user input
-        // final EditText input = new EditText(this);
-        //alert.setView(input);
-        //OTP = input.getText().toString();
+        alert.setPositiveButton("전송", (dialog, which) -> {
+            if(connectedThread!=null){
+                connectedThread.write(OTP);
+                Toast.makeText(getApplicationContext(), "전송 완료", Toast.LENGTH_SHORT).show();
 
-
-        alert.setPositiveButton("전송", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if(connectedThread!=null){ 
-                    connectedThread.write(OTP);
-                    Toast.makeText(getApplicationContext(), "전송 완료", Toast.LENGTH_SHORT).show();
-
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "전송 실패", Toast.LENGTH_SHORT).show();
-
-                }
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "전송 실패", Toast.LENGTH_SHORT).show();
 
             }
 
         });
-        alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        alert.setNegativeButton("취소", (dialog, which) -> {
 
-            }
         });
         alert.show();
     }
@@ -297,26 +267,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void onClickButtonGetOTP(View view){
-
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        // Don't forget to unregister the ACTION_FOUND receiver.
-        //unregisterReceiver(receiver);
-//        try {
-//            client.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public class myOnItemClickListener implements AdapterView.OnItemClickListener {
 
-        @SuppressLint("MissingPermission")
+        @SuppressLint({"MissingPermission", "SetTextI18n"})
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Toast.makeText(getApplicationContext(), btArrayAdapter.getItem(position), Toast.LENGTH_SHORT).show();
