@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 public class Register extends AppCompatActivity {
 
-    private EditText edittext, edittext2, edittext3, join_pwck;
+    private EditText join_id, join_pw, join_name, join_pwck, join_2ndpw;
     private Button join_button, check_button;
     private AlertDialog dialog;
     private boolean validate = false;
@@ -31,10 +31,12 @@ public class Register extends AppCompatActivity {
         setContentView( R.layout.activity_register );
 
         //아이디값 찾아주기
-        edittext = findViewById( R.id.edittext );
-        edittext2 = findViewById( R.id.edittext2 );
-        edittext3 = findViewById( R.id.edittext3 );
+        join_id = findViewById( R.id.join_id );
+        join_pw = findViewById( R.id.join_pw );
+        join_name = findViewById( R.id.join_name );
         join_pwck = findViewById(R.id.join_pwck);
+        join_2ndpw = findViewById(R.id.join_2ndpw);
+
 
 
         //아이디 중복 체크
@@ -43,7 +45,7 @@ public class Register extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                String UserEmail = edittext.getText().toString();
+                String UserEmail = join_id.getText().toString();
                 if (validate) {
                     return; //검증 완료
                 }
@@ -67,7 +69,7 @@ public class Register extends AppCompatActivity {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
                                 dialog = builder.setMessage("사용할 수 있는 아이디입니다.").setPositiveButton("확인", null).create();
                                 dialog.show();
-                                edittext.setEnabled(false); //아이디값 고정
+                                join_id.setEnabled(false); //아이디값 고정
                                 validate = true; //검증 완료
                                 check_button.setBackgroundColor(getResources().getColor(R.color.colorGray));
                             }
@@ -94,10 +96,11 @@ public class Register extends AppCompatActivity {
         join_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String UserEmail = edittext.getText().toString();
-                final String UserPwd = edittext2.getText().toString();
-                final String UserName = edittext3.getText().toString();
+                final String UserEmail = join_id.getText().toString();
+                final String UserPwd = join_pw.getText().toString();
+                final String name = join_name.getText().toString();
                 final String PassCk = join_pwck.getText().toString();
+                final String secondpw = join_2ndpw.getText().toString();
 
 
                 //아이디 중복체크 했는지 확인
@@ -109,7 +112,7 @@ public class Register extends AppCompatActivity {
                 }
 
                 //한 칸이라도 입력 안했을 경우
-                if (UserEmail.equals("") || UserPwd.equals("") || UserName.equals("")) {
+                if (UserEmail.equals("") || UserPwd.equals("") || name.equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
                     dialog = builder.setMessage("모두 입력해주세요.").setNegativeButton("확인", null).create();
                     dialog.show();
@@ -128,7 +131,7 @@ public class Register extends AppCompatActivity {
                             if(UserPwd.equals(PassCk)) {
                                 if (success) {
 
-                                    Toast.makeText(getApplicationContext(), String.format("%s님 가입을 환영합니다.", UserName), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), String.format("%s님 가입을 환영합니다.", name), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Register.this, LoginRequest.class);
                                     startActivity(intent);
 
@@ -152,7 +155,7 @@ public class Register extends AppCompatActivity {
                 };
 
                 //서버로 Volley를 이용해서 요청
-                RegisterRequest registerRequest = new RegisterRequest( UserEmail, UserPwd, UserName, responseListener);
+                RegisterRequest registerRequest = new RegisterRequest( UserEmail, UserPwd, name, secondpw, responseListener);
                 RequestQueue queue = Volley.newRequestQueue( Register.this );
                 queue.add( registerRequest );
             }

@@ -14,12 +14,12 @@
         android:text="회원가입"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edittext3"
+        app:layout_constraintBottom_toTopOf="@+id/join_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/edittext3"
+        android:id="@+id/join_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
@@ -28,11 +28,11 @@
         android:ems="10"
         android:hint="이름"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/edittext"
+        app:layout_constraintBottom_toTopOf="@+id/join_id"
         app:layout_constraintEnd_toEndOf="@+id/check_button" />
 
     <EditText
-        android:id="@+id/edittext2"
+        android:id="@+id/join_pw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
@@ -40,7 +40,7 @@
         android:hint="비밀번호"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/join_pwck"
-        app:layout_constraintStart_toStartOf="@+id/edittext" />
+        app:layout_constraintStart_toStartOf="@+id/join_id" />
 
     <EditText
         android:id="@+id/join_pwck"
@@ -51,10 +51,22 @@
         android:hint="비밀번호 확인"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/edittext2" />
+        app:layout_constraintStart_toStartOf="@+id/join_pw" />
+
 
     <EditText
-        android:id="@+id/edittext"
+        android:id="@+id/join_2ndpw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="200dp"
+        android:ems="10"
+        android:hint="2차 비밀번호"
+        android:inputType="numberPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/join_pw" />
+
+    <EditText
+        android:id="@+id/join_id"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginEnd="6dp"
@@ -63,9 +75,9 @@
         android:ems="10"
         android:hint="아이디"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/edittext2"
+        app:layout_constraintBottom_toTopOf="@+id/join_pw"
         app:layout_constraintEnd_toStartOf="@+id/check_button"
-        app:layout_constraintStart_toStartOf="@+id/edittext3" />
+        app:layout_constraintStart_toStartOf="@+id/join_name" />
 
     <Button
         android:id="@+id/check_button"
@@ -74,7 +86,7 @@
         android:layout_height="47dp"
         android:layout_marginEnd="97dp"
         android:text="확인"
-        app:layout_constraintBaseline_toBaselineOf="@+id/edittext"
+        app:layout_constraintBaseline_toBaselineOf="@+id/join_id"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
@@ -83,8 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="71dp"
+        android:layout_marginTop="88dp"
         android:text="취소"
         app:layout_constraintStart_toEndOf="@+id/join_button"
         app:layout_constraintTop_toBottomOf="@+id/join_pwck" />
@@ -94,8 +105,7 @@
         style="@style/defaultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginLeft="96dp"
+        android:layout_marginStart="100dp"
         android:text="가입"
         app:layout_constraintBaseline_toBaselineOf="@+id/delete"
         app:layout_constraintStart_toStartOf="parent" />
