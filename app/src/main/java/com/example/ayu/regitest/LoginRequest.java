@@ -3,6 +3,8 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,9 +15,9 @@ public class LoginRequest extends StringRequest {
     private Map<String, String> map;
 
 
-
     public LoginRequest(String id, String pw, Response.Listener<String> listener) { //문자형태로 보낸다는 뜻
         super(Method.POST, URL, listener, null);
+
 
         map = new HashMap<>();
         map.put("id", id);
@@ -27,4 +29,5 @@ public class LoginRequest extends StringRequest {
     protected Map<String, String> getParams() throws AuthFailureError {
         return map;
     }
+
 }

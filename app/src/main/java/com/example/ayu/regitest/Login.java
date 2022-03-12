@@ -17,11 +17,15 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.crypto.KeyGenerator;
+
 
 public class Login extends AppCompatActivity {
 
     private EditText textID, textPW;
     private Button login_button, join_button;
+    private String saltHash;
+    private String hashPw;
 
 
     @Override
@@ -31,6 +35,7 @@ public class Login extends AppCompatActivity {
 
         textID = findViewById(R.id.edittext3);
         textPW = findViewById(R.id.edittext4);
+
 
         join_button = findViewById( R.id.join_button );
         join_button.setOnClickListener( new View.OnClickListener() {
@@ -49,6 +54,9 @@ public class Login extends AppCompatActivity {
 
                 String Lid = textID.getText().toString();
                 String Lpw = textPW.getText().toString();
+                saltHash = "KAUCapstonedesign"+ Lpw +"SmartLock";
+                SHA516_Hash_InCode hash_inCode = new SHA516_Hash_InCode();
+                hashPw = hash_inCode.SHA516_Hash_InCode(saltHash); //솔팅한 값 해시화한 값
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
 
@@ -85,7 +93,7 @@ public class Login extends AppCompatActivity {
                     }
                 };
 
-                LoginRequest loginRequest = new LoginRequest(Lid, Lpw, responseListener);
+                LoginRequest loginRequest = new LoginRequest(Lid, hashPw, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(Login.this);
                 queue.add(loginRequest);
 
