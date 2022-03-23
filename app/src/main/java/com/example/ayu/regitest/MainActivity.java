@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String UserName, UserEmail;
     public String OTP;
+    public boolean usermode;
 
     private static final int BUF_SIZE = 100;
 
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         UserName = getIntent().getStringExtra("UserName");
         UserEmail = getIntent().getStringExtra("UserEmail");
+        usermode = getIntent().getBooleanExtra("usermode", true);
 
         welcome.setText(UserName + " 님 환영합니다.");
 
@@ -115,18 +117,24 @@ public class MainActivity extends AppCompatActivity {
 
 
         send_button.setOnClickListener(view -> {
-            Connect connect = new Connect();
-            CONNECT_MSG = UserEmail;
-            connect.execute(UserEmail);
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if(usermode){
+                Toast.makeText( getApplicationContext(), String.format("권한이 없습니다."), Toast.LENGTH_SHORT ).show();
+
             }
-            try {
-                client.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            else {
+                Connect connect = new Connect();
+                CONNECT_MSG = UserEmail;
+                connect.execute(UserEmail);
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
         });

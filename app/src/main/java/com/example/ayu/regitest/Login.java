@@ -22,6 +22,7 @@ public class Login extends AppCompatActivity {
     private EditText textID, textPW;
     private String saltHash;
     private String hashPw;
+    boolean usermode; // usermode = false : admin, true : guest
 
 
     @Override
@@ -29,14 +30,29 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         textID = findViewById(R.id.edittext3);
         textPW = findViewById(R.id.edittext4);
 
-
+        Button guest_button = findViewById(R.id.guest_button);
         Button join_button = findViewById(R.id.join_button);
         join_button.setOnClickListener(view -> {
             Intent intent = new Intent( Login.this, Register.class );//
             startActivity( intent );
+        });
+        guest_button.setOnClickListener(view -> {
+            usermode = true;
+
+            Toast.makeText( getApplicationContext(), String.format("%s님 환영합니다.", "Guest"), Toast.LENGTH_SHORT ).show();
+            Intent intent = new Intent( Login.this, MainActivity.class );
+
+            intent.putExtra( "UserEmail", "Guest" );
+            intent.putExtra( "UserPwd", 0 );
+            intent.putExtra( "UserName", "Guest" );
+            intent.putExtra( "secondpw", 0 );
+            intent.putExtra( "usermode", usermode);
+
+            startActivity(intent);
         });
 
         Button login_button = findViewById(R.id.login_button);
@@ -59,6 +75,7 @@ public class Login extends AppCompatActivity {
                         String textPW = jsonObject.getString( "pw" );
                         String name = jsonObject.getString( "name" );
                         String secondpw = jsonObject.getString("secondpw");
+                        usermode = false;
 
                         Toast.makeText( getApplicationContext(), String.format("%s님 환영합니다.", name), Toast.LENGTH_SHORT ).show();
                         Intent intent = new Intent( Login.this, MainActivity.class );
@@ -67,6 +84,7 @@ public class Login extends AppCompatActivity {
                         intent.putExtra( "UserPwd", textPW );
                         intent.putExtra( "UserName", name );
                         intent.putExtra( "secondpw", secondpw );
+                        intent.putExtra( "usermode", usermode);
 
                         startActivity( intent );
                     } else {//실패시

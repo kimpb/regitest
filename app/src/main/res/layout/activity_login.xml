@@ -87,11 +87,24 @@
                 android:textStyle="bold" />
 
             <Button
+                android:id="@+id/guest_button"
+                style="@style/defaultButton"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:background="@color/colorPrimaryDark"
+                android:text="게스트 모드"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                app:layout_constraintVertical_bias="0.163" />
+
+            <Button
                 android:id="@+id/join_button"
                 style="@style/defaultButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_gravity="center"
                 android:background="@color/colorPrimaryDark"
                 android:text="가입"
