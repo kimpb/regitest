@@ -29,12 +29,22 @@ import androidx.core.app.ActivityCompat;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.Socket;
+import java.net.URLDecoder;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -57,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String SERVER_IP = "13.209.98.41";
     public String CONNECT_MSG;
     private static final String STOP_MSG = "stop";
+
+    final static String key = "QWERQWERQWERQWERQWERQWERQWERQWER";
 
 
     public String UserName, UserEmail;
@@ -188,9 +200,33 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(String... params){
+            String Decode = null;
+            try {
+                OTP = AES256.AES_Decode(params[0]);
+            } catch (NoSuchAlgorithmException e) {
+                OTP = "1";
+                e.printStackTrace();
+            } catch (NoSuchPaddingException e) {
+                OTP = "2";
+                e.printStackTrace();
+            } catch (InvalidKeyException e) {
+                OTP = "3";
+                e.printStackTrace();
+            } catch (InvalidAlgorithmParameterException e) {
+                OTP = "4";
+                e.printStackTrace();
+            } catch (IllegalBlockSizeException e) {
+                OTP = "5";
+                e.printStackTrace();
+            } catch (BadPaddingException e) {
+                OTP = "6";
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                OTP = "7";
+                e.printStackTrace();
+            }
             read_textView.setText(""); // Clear the chat box
-            read_textView.append("OTP : " + params[0]);
-            OTP = params[0];
+            read_textView.append("OTP : " + OTP);
         }
     }
 
