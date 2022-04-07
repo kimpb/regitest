@@ -134,9 +134,11 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new myOnItemClickListener());
 
         gen_pubkey.setOnClickListener(view -> {
+            byte[] enc = new byte[0];
+            String dec;
             RSA.createKey();
             try {
-                RSA.encrypt("123456");
+                enc = RSA.encrypt("123456");
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             } catch (NoSuchPaddingException e) {
@@ -154,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            dec = RSA.decrypt(enc);
+            Log.w("decrypt", dec);
         });
 
 

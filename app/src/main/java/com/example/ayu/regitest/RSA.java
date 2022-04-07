@@ -66,7 +66,7 @@ public abstract class RSA extends Context {
     }
     public static byte[] encrypt(final String text) throws NoSuchAlgorithmException, NoSuchPaddingException,
             InvalidKeyException, IllegalBlockSizeException, BadPaddingException, KeyStoreException, CertificateException, IOException {
-        Log.d(TAG, "encrypt test" + text+"");
+        Log.d(TAG, "before encrypt:" + text+"");
         KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
         keyStore.load(null);
         PublicKey publicKey = keyStore.getCertificate("key1").getPublicKey();
@@ -89,7 +89,7 @@ public abstract class RSA extends Context {
         return encryptedBytes;
     }
 
-    public String decrypt(final byte[] encryptedText) {
+    public static String decrypt(final byte[] encryptedText) {
         try {
             KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
             keyStore.load(null);
