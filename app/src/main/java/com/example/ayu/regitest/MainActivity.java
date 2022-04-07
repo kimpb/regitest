@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -37,7 +39,9 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     UUID BT_MODULE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
 
     TextView textStatus, read_textView, welcome;
-    Button btnParied, btnSearch, btnSend, send_button;
+    Button btnParied, btnSearch, btnSend, send_button, gen_pubkey;
     ListView listView;
 
     BluetoothAdapter btAdapter;
@@ -80,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     BluetoothSocket btSocket = null;
     ConnectedThread connectedThread;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint({"MissingPermission", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         btnParied = findViewById(R.id.btn_paired);
         btnSearch = findViewById(R.id.btn_search);
         btnSend = findViewById(R.id.btn_send);
+        gen_pubkey = findViewById((R.id.gen_pubkey));
         listView = findViewById(R.id.listview);
         // Show paired devices
         btArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
@@ -126,6 +132,29 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(btArrayAdapter);
 
         listView.setOnItemClickListener(new myOnItemClickListener());
+
+        gen_pubkey.setOnClickListener(view -> {
+            RSA.createKey();
+            try {
+                RSA.encrypt("123456");
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (NoSuchPaddingException e) {
+                e.printStackTrace();
+            } catch (InvalidKeyException e) {
+                e.printStackTrace();
+            } catch (IllegalBlockSizeException e) {
+                e.printStackTrace();
+            } catch (BadPaddingException e) {
+                e.printStackTrace();
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            } catch (CertificateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
 
         send_button.setOnClickListener(view -> {
@@ -201,8 +230,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(String... params){
             String Decode = null;
+            Log.v("before Decode", ": "+params[0]);
             try {
                 OTP = AES256.AES_Decode(params[0]);
+                Log.v("after Decode", ": "+OTP);
             } catch (NoSuchAlgorithmException e) {
                 OTP = "1";
                 e.printStackTrace();
