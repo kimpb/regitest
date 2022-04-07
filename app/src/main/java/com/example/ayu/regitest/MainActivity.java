@@ -39,6 +39,7 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
@@ -134,9 +135,34 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new myOnItemClickListener());
 
         gen_pubkey.setOnClickListener(view -> {
-            RSA.createKey();
+            String temp;
+            String temp_enc = null;
+            String temp_dec = null;
+            temp = "123456";
+            Key private_key, public_key;
+            private_key = RSA1.getPublicKey();
+            public_key = RSA1.getPrivateKey();
+            Log.w("temp otp", "" + temp);
+            Log.w("privateKey", "" + private_key);
+            Log.w("publicKey", "" + public_key);
             try {
-                RSA.encrypt("123456");
+                temp_enc = RSA1.encrypt(temp);
+            } catch (InvalidKeyException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (NoSuchPaddingException e) {
+                e.printStackTrace();
+            } catch (IllegalBlockSizeException e) {
+                e.printStackTrace();
+            } catch (BadPaddingException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            Log.w("temp_enc", "" + temp_enc);
+            try {
+                temp_dec = RSA1.decrypt(temp_enc);
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             } catch (NoSuchPaddingException e) {
@@ -147,13 +173,11 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (BadPaddingException e) {
                 e.printStackTrace();
-            } catch (KeyStoreException e) {
-                e.printStackTrace();
-            } catch (CertificateException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
+            Log.w("temp_dec", "" + temp_dec);
+
         });
 
 
