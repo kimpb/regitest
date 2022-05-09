@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onProgressUpdate(String... params){
             String Decode = null;
             try {
-                OTP = AES256.AES_Decode(params[0]);
+                OTP = AES256.AES_Decode(key, params[0]);
             } catch (NoSuchAlgorithmException e) {
                 OTP = "1";
                 e.printStackTrace();
