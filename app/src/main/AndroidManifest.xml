@@ -4,6 +4,7 @@
     package="com.example.ayu.regitest">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
     <!--BLUETOOTH PERMISSION-->
     <!-- Request legacy Bluetooth permissions on older devices. -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -32,6 +33,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Regitest"
         tools:targetApi="m">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_baseline_lock_24" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
         <activity android:name=".Login"
             android:exported="true">
             <intent-filter>
@@ -40,7 +49,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustNothing">
         </activity>
         <activity android:name=".Register">
         </activity>
@@ -50,7 +60,6 @@
         <activity
             android:name=".ConnectedThread"
             tools:ignore="Instantiatable" />
-
     </application>
 
 </manifest>

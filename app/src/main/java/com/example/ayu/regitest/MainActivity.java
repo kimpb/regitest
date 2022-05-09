@@ -10,8 +10,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +28,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -45,6 +55,7 @@ import java.util.UUID;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -68,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
     public String CONNECT_MSG;
     private static final String STOP_MSG = "stop";
 
+    //Guset Key
+    private EditText join_gkey;
+    private Button gkey_button;
+
+
     final static String key = "QWERQWERQWERQWERQWERQWERQWERQWER";
 
 
@@ -86,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        join_gkey = findViewById( R.id.join_gkey);
 
         send_button = findViewById(R.id.send_button);
         read_textView = findViewById(R.id.read_textView);
@@ -98,6 +115,73 @@ public class MainActivity extends AppCompatActivity {
         welcome.setText(UserName + " 님 환영합니다.");
 
 
+        //Guest Key 등록
+        gkey_button = findViewById(R.id.gkey_button);
+        gkey_button.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final String guestkey = join_gkey.getText().toString();
+
+
+
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject( response );
+                            boolean success = jsonObject.getBoolean( "success" );
+
+                            //등록 성공시
+
+                                if (success) {
+
+                                    Toast.makeText(getApplicationContext(), "정상적으로 등록되었습니다.", Toast.LENGTH_SHORT).show();
+
+                                    //등록 실패시
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "등록에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
+
+                //서버로 Volley를 이용해서 요청
+                guestkeyRequest guestkeyRequest = new guestkeyRequest(guestkey, responseListener);
+                RequestQueue queue = Volley.newRequestQueue( MainActivity.this );
+                queue.add( guestkeyRequest );
+            }
+
+        });
+        join_gkey.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    gkey_button.setClickable(true);
+                    gkey_button.setBackgroundColor(Color.BLUE);
+                } else {
+                    gkey_button.setClickable(false);
+                    gkey_button.setBackgroundColor(Color.GRAY);
+                }
+            }
+        });
 
         // Get permission
         String[] permission_list = {
@@ -150,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
 
 
     }
@@ -362,6 +447,12 @@ public class MainActivity extends AppCompatActivity {
         }
         return  device.createRfcommSocketToServiceRecord(BT_MODULE_UUID);
     }
+
+
+
+
+
+
 
 
 

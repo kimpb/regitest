@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "607931688684",
+    "project_id": "smartlock-b206c",
+    "storage_bucket": "smartlock-b206c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:607931688684:android:a62edafa0b8060c60127c9",
+        "android_client_info": {
+          "package_name": "com.example.ayu.regitest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQsfEsBIGlmji_h87KejOhFO3ISoCzZAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
