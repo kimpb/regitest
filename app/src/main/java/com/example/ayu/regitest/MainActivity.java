@@ -79,12 +79,16 @@ public class MainActivity extends AppCompatActivity {
     public String CONNECT_MSG;
     private static final String STOP_MSG = "stop";
 
-    //Guset Key
+    //Guest Key
     private EditText join_gkey;
     private Button gkey_button;
 
+    //Provided Guest Key
+    private EditText input_gkey;
+    private Button igkey_button;
 
-    final static String key = "QWERQWERQWERQWERQWERQWERQWERQWER";
+
+     public String key;//"QWERQWERQWERQWERQWERQWERQWERQWER";
 
 
     public String UserName, UserEmail;
@@ -103,7 +107,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         join_gkey = findViewById( R.id.join_gkey);
-
+        input_gkey = findViewById( R.id.input_gkey);
+        gkey_button = findViewById(R.id.gkey_button);
+        igkey_button = findViewById(R.id.igkey_button);
         send_button = findViewById(R.id.send_button);
         read_textView = findViewById(R.id.read_textView);
         welcome = findViewById(R.id.welcome);
@@ -116,24 +122,31 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Guest Key 등록
-        gkey_button = findViewById(R.id.gkey_button);
         gkey_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                final String guestkey = join_gkey.getText().toString();
+                if(usermode){
+                Toast.makeText( getApplicationContext(), String.format("권한이 없습니다."), Toast.LENGTH_SHORT ).show();
+
+            }
+                else {
+                    if(join_gkey.getText().toString().equals("")){
+                        Toast.makeText( getApplicationContext(), String.format("코드를 입력하세요."), Toast.LENGTH_SHORT ).show();
+                    }
+                    else{
+                    final String guestkey = join_gkey.getText().toString();
 
 
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                boolean success = jsonObject.getBoolean("success");
 
-                        try {
-                            JSONObject jsonObject = new JSONObject( response );
-                            boolean success = jsonObject.getBoolean( "success" );
-
-                            //등록 성공시
+                                //등록 성공시
 
                                 if (success) {
 
@@ -146,20 +159,23 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                         }
+                    };
 
-                    }
-                };
-
-                //서버로 Volley를 이용해서 요청
-                guestkeyRequest guestkeyRequest = new guestkeyRequest(guestkey, responseListener);
-                RequestQueue queue = Volley.newRequestQueue( MainActivity.this );
-                queue.add( guestkeyRequest );
+                    //서버로 Volley를 이용해서 요청
+                    guestkeyRequest guestkeyRequest = new guestkeyRequest(guestkey, responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                    queue.add(guestkeyRequest);
+                }
+            }
             }
 
         });
+        //버튼 활성화
         join_gkey.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -179,6 +195,36 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     gkey_button.setClickable(false);
                     gkey_button.setBackgroundColor(Color.GRAY);
+                }
+            }
+        });
+
+        //Guest Key 입력
+        igkey_button.setOnClickListener( v-> {
+
+                    key = input_gkey.getText().toString();
+
+        });
+        //버튼 활성화
+        input_gkey.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    igkey_button.setClickable(true);
+                    igkey_button.setBackgroundColor(Color.BLUE);
+                } else {
+                    igkey_button.setClickable(false);
+                    igkey_button.setBackgroundColor(Color.GRAY);
                 }
             }
         });
