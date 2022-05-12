@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private Button igkey_button;
 
 
-     public String key = "QWERQWERQWERQWERQWERQWERQWERQWER";
+     public String key = null; // "QWERQWERQWERQWERQWERQWERQWERQWER";
 
 
     public String UserName, UserEmail;
@@ -202,9 +202,10 @@ public class MainActivity extends AppCompatActivity {
 
         //Guest Key 입력
         igkey_button.setOnClickListener( v-> {
+            key = input_gkey.getText().toString();
+            key = String.format("%-32s", key);
+            Toast.makeText( getApplicationContext(), String.format("Key가 저장되었습니다."), Toast.LENGTH_SHORT ).show();
 
-                    key = input_gkey.getText().toString();
-                    key = String.format("%-32s", key);
 
         });
         //버튼 활성화
@@ -261,6 +262,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         send_button.setOnClickListener(view -> {
+            if(!usermode){
+                key = "QWERQWERQWERQWERQWERQWERQWERQWER";
+            }
+            if(key == null){
+                Toast.makeText( getApplicationContext(), String.format("Key가 입력되지 않았습니다."), Toast.LENGTH_SHORT ).show();
+
+            }
+            else {
                 Connect connect = new Connect();
                 CONNECT_MSG = UserEmail;
                 connect.execute(UserEmail);
@@ -274,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
+            }
         });
 
 

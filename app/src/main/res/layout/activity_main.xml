@@ -44,16 +44,14 @@
         app:layout_constraintTop_toBottomOf="@id/btn_search" />
 
 
-
     <ListView
         android:id="@+id/listview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_send" />
+        app:layout_constraintTop_toBottomOf="@+id/input_gkey" />
 
     <TextView
         android:id="@+id/text_status"
@@ -111,43 +109,50 @@
         app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/join_gkey"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:hint="등록할 Guest Key를 입력하세요            "
-        android:padding="8dp"
-        android:maxLines="2"
         android:inputType="text"
+        android:maxLines="2"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/gkey_button"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_send"
+        app:layout_constraintVertical_bias="0.0" />
+
     <Button
         android:id="@+id/gkey_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="등록"
-        android:textColor="#FFFFFF"
+        android:layout_width="102dp"
+        android:layout_height="47dp"
+        android:layout_marginEnd="8dp"
         android:background="#B9B7BD"
         android:clickable="false"
+        android:text="등록"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_send"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/igkey_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="106dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="4dp"
         android:background="#B9B7BD"
         android:clickable="false"
         android:text="등록"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.601" />
+        app:layout_constraintTop_toBottomOf="@+id/gkey_button"
+        app:layout_constraintVertical_bias="0.009" />
 
     <EditText
         android:id="@+id/input_gkey"
@@ -160,10 +165,9 @@
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/igkey_button"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.606" />
+        app:layout_constraintTop_toBottomOf="@+id/join_gkey"
+        app:layout_constraintVertical_bias="0.023" />
 
 
     <!--
