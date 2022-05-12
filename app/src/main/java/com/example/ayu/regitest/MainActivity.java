@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private Button igkey_button;
 
 
-     public String key;//"QWERQWERQWERQWERQWERQWERQWERQWER";
+     public String key = "QWERQWERQWERQWERQWERQWERQWERQWER";
 
 
     public String UserName, UserEmail;
@@ -135,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText( getApplicationContext(), String.format("코드를 입력하세요."), Toast.LENGTH_SHORT ).show();
                     }
                     else{
-                    final String guestkey = join_gkey.getText().toString();
+                    String guestkey = join_gkey.getText().toString();
+                    guestkey = String.format("%-32s", guestkey);
 
 
                     Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -203,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
         igkey_button.setOnClickListener( v-> {
 
                     key = input_gkey.getText().toString();
+                    key = String.format("%-32s", key);
 
         });
         //버튼 활성화
@@ -259,11 +261,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         send_button.setOnClickListener(view -> {
-            if(usermode){
-                Toast.makeText( getApplicationContext(), String.format("권한이 없습니다."), Toast.LENGTH_SHORT ).show();
-
-            }
-            else {
                 Connect connect = new Connect();
                 CONNECT_MSG = UserEmail;
                 connect.execute(UserEmail);
@@ -277,7 +274,6 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
 
         });
 
@@ -331,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(String... params){
-            String Decode = null;
+            Log.v("server: ", params[0]);
             try {
                 OTP = AES256.AES_Decode(key, params[0]);
             } catch (NoSuchAlgorithmException e) {
