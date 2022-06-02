@@ -55,17 +55,6 @@
 
 
     <EditText
-        android:id="@+id/join_2ndpw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
-        android:ems="10"
-        android:hint="2차 비밀번호"
-        android:inputType="numberPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/join_pw" />
-
-    <EditText
         android:id="@+id/join_id"
         android:layout_width="0dp"
         android:layout_height="50dp"

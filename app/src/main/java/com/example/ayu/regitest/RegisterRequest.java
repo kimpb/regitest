@@ -15,14 +15,13 @@ public class RegisterRequest extends StringRequest {
 
 
 
-    public RegisterRequest(String id, String pw, String name, String secondpw, Response.Listener<String> listener) { //문자형태로 보낸다는 뜻
+    public RegisterRequest(String id, String pw, String name, Response.Listener<String> listener) { //문자형태로 보낸다는 뜻
         super(Method.POST, URL, listener, null);
 
         map = new HashMap<>();
         map.put("id", id);
         map.put("pw", pw);
         map.put("name", name);
-        map.put("secondpw", secondpw);
 
     }
 

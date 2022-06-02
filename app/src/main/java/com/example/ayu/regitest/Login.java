@@ -49,7 +49,6 @@ public class Login extends AppCompatActivity {
             intent.putExtra( "UserEmail", "Guest" );
             intent.putExtra( "UserPwd", 0 );
             intent.putExtra( "UserName", "Guest" );
-            intent.putExtra( "secondpw", 0 );
             intent.putExtra( "usermode", usermode);
 
             startActivity(intent);
@@ -74,7 +73,6 @@ public class Login extends AppCompatActivity {
                         String textID = jsonObject.getString( "id" );
                         String textPW = jsonObject.getString( "pw" );
                         String name = jsonObject.getString( "name" );
-                        String secondpw = jsonObject.getString("secondpw");
                         usermode = false;
 
                         Toast.makeText( getApplicationContext(), String.format("%s님 환영합니다.", name), Toast.LENGTH_SHORT ).show();
@@ -83,7 +81,6 @@ public class Login extends AppCompatActivity {
                         intent.putExtra( "UserEmail", textID );
                         intent.putExtra( "UserPwd", textPW );
                         intent.putExtra( "UserName", name );
-                        intent.putExtra( "secondpw", secondpw );
                         intent.putExtra( "usermode", usermode);
 
                         startActivity( intent );

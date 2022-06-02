@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 public class Register extends AppCompatActivity {
 
-    private EditText join_id, join_pw, join_name, join_pwck, join_2ndpw;
+    private EditText join_id, join_pw, join_name, join_pwck;
     private Button join_button, check_button;
     private AlertDialog dialog;
     private boolean validate = false;
@@ -35,7 +35,6 @@ public class Register extends AppCompatActivity {
         join_pw = findViewById( R.id.join_pw );
         join_name = findViewById( R.id.join_name );
         join_pwck = findViewById(R.id.join_pwck);
-        join_2ndpw = findViewById(R.id.join_2ndpw);
 
 
 
@@ -100,7 +99,6 @@ public class Register extends AppCompatActivity {
                 final String UserPwd = join_pw.getText().toString();
                 final String name = join_name.getText().toString();
                 final String PassCk = join_pwck.getText().toString();
-                final String secondpw = join_2ndpw.getText().toString();
 
 
                 //아이디 중복체크 했는지 확인
@@ -155,7 +153,7 @@ public class Register extends AppCompatActivity {
                 };
 
                 //서버로 Volley를 이용해서 요청
-                RegisterRequest registerRequest = new RegisterRequest( UserEmail, UserPwd, name, secondpw, responseListener);
+                RegisterRequest registerRequest = new RegisterRequest( UserEmail, UserPwd, name, responseListener);
                 RequestQueue queue = Volley.newRequestQueue( Register.this );
                 queue.add( registerRequest );
             }
